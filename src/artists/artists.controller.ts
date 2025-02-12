@@ -14,7 +14,6 @@ import {Artist, ArtistDocument} from "../schemas/artist.schema";
 import {Model} from "mongoose";
 import {CreateArtistDto} from "./create-artist.dto";
 import {FileInterceptor} from "@nestjs/platform-express";
-import * as path from "node:path";
 
 @Controller('artists')
 export class ArtistsController {
@@ -52,10 +51,6 @@ export class ArtistsController {
         const newArtist = await artist.save();
         return newArtist;
     }
-
-
-
-
 
     @Delete(':_id')
     async deleteArtist(@Param('_id') _id: string) {
