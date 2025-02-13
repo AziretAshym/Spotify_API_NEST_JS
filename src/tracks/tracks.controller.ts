@@ -17,7 +17,7 @@ export class TracksController {
     @Get()
     async getTracks(@Query('albumId') albumId: string) {
         if (albumId) {
-            const tracks = await this.trackModel.find({ albumId });
+            const tracks = await this.trackModel.find({ album: albumId });
             if (!tracks) {
                 throw new NotFoundException("Albums not found");
             }

@@ -29,7 +29,7 @@ export class AlbumsController {
     @Get()
     async getAlbums(@Query('artistId') artistId: string) {
         if (artistId) {
-            const albums = await this.albumModel.find({ artistId });
+            const albums = await this.albumModel.find({ artist: artistId });
             if (!albums) {
                 throw new NotFoundException("Album not found!");
             }
