@@ -16,6 +16,8 @@ import {Album, AlbumDocument} from "../schemas/album.schema";
 import {Artist, ArtistDocument} from "../schemas/artist.schema";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {CreateAlbumDto} from "./create-album.dto";
+import {diskStorage} from "multer";
+import {extname} from "path";
 
 @Controller('albums')
 export class AlbumsController {
@@ -38,12 +40,23 @@ export class AlbumsController {
         return this.albumModel.find();
     };
 
+    @Get(':id')
+    getOneAlbum(@Param('id') id: string) {
+        return this.albumModel.findById(id);
+    }
+
     @Post()
     @UseInterceptors(
         FileInterceptor('image', {
-            dest: './public/uploads/albums'
+            storage: diskStorage({
+                destination: './public/uploads/albums',
+                filename: (_req, file, callback) => {
+                    callback(null, crypto.randomUUID() + extname(file.originalname));
+                },
+            }),
         }),
     )
+
     async createAlbum(
         @UploadedFile() file: Express.Multer.File,
         @Body() albumDto: CreateAlbumDto
