@@ -4,6 +4,8 @@ import { Model } from 'mongoose';
 import { Album, AlbumDocument } from '../schemas/album.schema';
 import { Track, TrackDocument } from '../schemas/track.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from '../schemas/user.shema';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class SeederService {
@@ -14,11 +16,31 @@ export class SeederService {
     private albumModel: Model<AlbumDocument>,
     @InjectModel(Track.name)
     private trackModel: Model<TrackDocument>,
+    @InjectModel(User.name)
+    private userModel: Model<UserDocument>,
   ) {}
   async seed() {
     await this.artistModel.deleteMany({});
     await this.albumModel.deleteMany({});
     await this.trackModel.deleteMany({});
+    await this.userModel.deleteMany({});
+
+    await this.userModel.create(
+      {
+        email: 'abc@gmail.com',
+        password: 'abc',
+        displayName: 'ABC',
+        token: randomUUID(),
+        role: 'admin',
+      },
+      {
+        email: 'xyz@gmail.com',
+        password: 'xyz',
+        displayName: '  XYZ',
+        token: randomUUID(),
+        role: 'user',
+      },
+    );
 
     const [twoPac, notoriousBig, snoopDogg] = await this.artistModel.create(
       {

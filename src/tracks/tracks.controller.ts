@@ -7,12 +7,15 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Track, TrackDocument } from '../schemas/track.schema';
 import { Model } from 'mongoose';
 import { Album, AlbumDocument } from '../schemas/album.schema';
 import { CreateTrackDto } from './create-track.dto';
+import { TokenAuthGuard } from '../token-auth/token-auth.guard';
+import { AdminGuard } from '../admin-guard/admin-guard';
 
 @Controller('tracks')
 export class TracksController {
@@ -54,6 +57,7 @@ export class TracksController {
     return newTrack;
   }
 
+  @UseGuards(TokenAuthGuard, AdminGuard)
   @Delete(':id')
   async deleteTrack(@Param('id') id: string) {
     const track = await this.trackModel.findByIdAndDelete(id);
