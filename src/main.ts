@@ -10,11 +10,8 @@ async function bootstrap() {
 }
 bootstrap();
 
-
 // При запуске проекта в консоли появляется ошибка (как я понял, говорится что в папке "dist"
 // отсутсвует файл main.ts). Если и у вас будет так же попробуйте запустить данные команды:
-
 // rm -rf dist
 // rm -f tsconfig.build.tsbuildinfo
 // npx tsc --build --force
-
