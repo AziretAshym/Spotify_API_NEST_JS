@@ -36,11 +36,13 @@ export class ArtistsController {
   getOneArtist(@Param('id') id: string) {
     return this.artistModel.findById(id);
   }
+
+  @UseGuards(TokenAuthGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: './public/uploads/albums',
+        destination: './public/uploads/artists',
         filename: (_req, file, callback) => {
           callback(null, crypto.randomUUID() + extname(file.originalname));
         },

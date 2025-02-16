@@ -38,6 +38,7 @@ export class TracksController {
     return this.trackModel.find();
   }
 
+  @UseGuards(TokenAuthGuard)
   @Post()
   async createTrack(@Body() trackDto: CreateTrackDto) {
     const trackAlbum = await this.albumModel.findById(trackDto.album);

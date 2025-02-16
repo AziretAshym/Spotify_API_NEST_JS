@@ -48,6 +48,7 @@ export class AlbumsController {
     return this.albumModel.findById(id);
   }
 
+  @UseGuards(TokenAuthGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('image', {
